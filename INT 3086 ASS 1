@@ -1,0 +1,66 @@
+# partOne.py
+# Source URLs:
+# Bubble Sort: https://www.geeksforgeeks.org/python-program-for-bubble-sort/
+# Quick Sort: https://www.geeksforgeeks.org/python-program-for-quicksort/
+# Counting Sort: https://www.geeksforgeeks.org/python-program-for-counting-sort/
+
+import random
+
+# Bubble Sort Implementation
+def bubble_sort(arr):
+    """Sorts an array using Bubble Sort algorithm."""
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+
+# Quick Sort Implementation
+def quick_sort(arr):
+    """Sorts an array using Quick Sort algorithm."""
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+# Counting Sort Implementation
+def counting_sort(arr):
+    """Sorts an array using Counting Sort algorithm."""
+    max_val = max(arr)
+    count = [0] * (max_val + 1)
+    output = [0] * len(arr)
+    
+    for num in arr:
+        count[num] += 1
+    
+    for i in range(1, len(count)):
+        count[i] += count[i - 1]
+    
+    for num in reversed(arr):
+        output[count[num] - 1] = num
+        count[num] -= 1
+    
+    return output
+
+def main():
+    # Generate a dataset of 1000 random 10-digit integers
+    dataset = [random.randint(1000000000, 9999999999) for _ in range(1000)]
+    
+    # Sort the dataset using the selected algorithms
+    bubble_sorted = dataset.copy()
+    quick_sorted = dataset.copy()
+    counting_sorted = dataset.copy()
+
+    bubble_sort(bubble_sorted)
+    quick_sorted = quick_sort(quick_sorted)
+    counting_sorted = counting_sort(counting_sorted)
+
+    print("Bubble Sort Result:", bubble_sorted)
+    print("Quick Sort Result:", quick_sorted)
+    print("Counting Sort Result:", counting_sorted)
+
+if __name__ == "__main__":
+    main()
